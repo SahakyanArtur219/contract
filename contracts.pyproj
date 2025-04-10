@@ -4,13 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>77558a00-918d-45f8-8150-febfb6853d24</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>contracts.py</StartupFile>
+    <StartupFile>rename_file_file.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>contracts</Name>
     <RootNamespace>contracts</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,8 @@
   <ItemGroup>
     <Compile Include="contracts.py" />
     <Compile Include="get_contracts_id.py" />
+    <Compile Include="name.py" />
+    <Compile Include="rename_file_file.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

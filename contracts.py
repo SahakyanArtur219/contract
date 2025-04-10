@@ -8,6 +8,45 @@ import pyautogui
 import json
 import os
 import shutil
+import re
+import os
+from rename_file_file  import rename_file
+
+
+'''
+def rename_file(file_name):
+    
+
+    # Specify the folder path and the current file name
+    folder_path = download_dir  # Replace with your folder path
+    
+    files = os.listdir(folder_path)
+
+    # Check if there is exactly one file in the folder
+    if len(files) == 1:
+        old_file_name = files[0]  # Get the first (and only) file name
+        new_file_name = file_name  # Replace with the new desired file name
+    
+        # Create full paths for old and new file names
+        old_file_path = os.path.join(folder_path, old_file_name)
+        new_file_path = os.path.join(folder_path, new_file_name)
+    
+        # Rename the file
+        os.rename(old_file_path, new_file_path)
+    
+        print(f"File renamed from '{old_file_name}' to '{new_file_name}'")
+    else:
+        print("There is not exactly one file in the folder.")
+'''
+
+
+
+
+
+
+def sanitize_windows_filename(name):
+    # Replace Windows-invalid characters with underscore
+    return re.sub(r'[\\/*?:"<>|]', '_', name)
 
 
 def move_files_to_new_folder(source_folder, new_folder_name):
@@ -37,11 +76,7 @@ def move_files_to_new_folder(source_folder, new_folder_name):
 
 
 
-
-
-
-# Load the list from the JSON file
-with open('data_list.json', 'r') as file:
+with open('grouped_data.json', 'r', encoding='utf-8') as file:
     data_list = json.load(file)
 
 # Use the data_list
@@ -50,11 +85,11 @@ with open('data_list.json', 'r') as file:
 installing_files = []
 count = 50
 download_dir = "C:\\Users\\artur.sahakyan\\Desktop\\all_doc"
+new_folder_name_path = " "
 
 
-
-def install_files(driver):
-    global count, installing_files
+def install_files(driver, file_name):
+    global count, installing_files, new_folder_name_path
     
     try:
         button_scanMenu1 = driver.find_element(By.ID, "scanMenu1")
@@ -62,9 +97,6 @@ def install_files(driver):
         return  # If button exists, return early without doing anything else
     except:
         pass
-
-
-
 
 
     button = driver.find_element(By.ID, "scanMenu0")
@@ -81,7 +113,10 @@ def install_files(driver):
             link.click()
             installing_files.append(link_text)
             count = count + 1
-            install_files(driver)
+            rename_file(file_name)
+            move_files_to_new_folder(download_dir, new_folder_name_path)
+
+            install_files(driver, file_name)
 
 # Set up Chrome options to connect to the remote debugging port
 chrome_options = Options()
@@ -132,18 +167,56 @@ def get_contract(cont_id):
     time.sleep(1)
     pyautogui.press('enter')
     time.sleep(5)
-    install_files(driver)
+    install_files(driver, cont_id)
     installing_files.clear()
     time.sleep(1)
     search_box.clear()
 
 
+'''
+
 for contract_id in data_list:
+    
     count = 0
     get_contract(contract_id)
     print(f"count for {contract_id} is {count}")
-    new_folder_name = f"C:\\Users\\artur.sahakyan\\Desktop\\specific_contract_doc\\{contract_id}"
+    
+
+    updated_folder_name = sanitize_windows_filename(contract_id)
+
+    new_folder_name = f"C:\\Users\\artur.sahakyan\\Desktop\\specific_contract_doc\\{updated_folder_name}"
     move_files_to_new_folder(download_dir, new_folder_name)
+
+''' 
+
+
+
+# Iterate over each key-value pair in the JSON data
+for organization, contract_codes in data_list.items():
+    
+
+    print(f"Organization: {organization}")
+    print("Contract Codes:")
+    
+    updated_folder_name = sanitize_windows_filename(organization)
+    new_folder_name_path = f"C:\\Users\\artur.sahakyan\\Desktop\\specific_contract_doc\\{updated_folder_name}"
+
+
+
+    # Iterate over the list of contract codes for the current organization
+    for code in contract_codes:
+
+
+
+
+        get_contract(code)
+        
+        print(f"- {code}")
+    print("-" * 30)  # Print a separator line between organizations
+
+
+
+
 
 
 driver.refresh()
