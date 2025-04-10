@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>77558a00-918d-45f8-8150-febfb6853d24</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>rename_file_file.py</StartupFile>
+    <StartupFile>contracts.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

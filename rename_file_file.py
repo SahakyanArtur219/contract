@@ -1,4 +1,10 @@
 ﻿import os
+import re
+
+def sanitize_windows_filename(name):
+    # Replace Windows-invalid characters with underscore
+    return re.sub(r'[\\/*?:"<>|]', '_', name)
+
 
 def rename_file(new_name_without_extension):
     # Folder where the file is located
@@ -32,4 +38,3 @@ def rename_file(new_name_without_extension):
     else:
         print("There is not exactly one file in the folder.")
         
-rename_file("fsdsfs")

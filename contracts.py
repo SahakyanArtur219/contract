@@ -113,6 +113,7 @@ def install_files(driver, file_name):
             link.click()
             installing_files.append(link_text)
             count = count + 1
+            file_name = sanitize_windows_filename(file_name)
             rename_file(file_name)
             move_files_to_new_folder(download_dir, new_folder_name_path)
 
@@ -205,9 +206,6 @@ for organization, contract_codes in data_list.items():
 
     # Iterate over the list of contract codes for the current organization
     for code in contract_codes:
-
-
-
 
         get_contract(code)
         
